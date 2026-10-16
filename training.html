@@ -53,6 +53,7 @@
 <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></symbol>
 <symbol id="i-support" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M6 6l3.6 3.6M18 6l-3.6 3.6M6 18l3.6-3.6M18 18l-3.6-3.6"/></symbol>
 <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.7 6.7a1.4 1.4 0 0 1-2 0l-8.3-8.3z"/><circle cx="8" cy="8" r="1.2"/></symbol>
+<symbol id="i-live" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></symbol>
 </g>
 </svg>
 <a class="skip" href="#main">Skip to content</a>
@@ -110,6 +111,31 @@
   </div>
 </section>
 
+<section class="section" id="lipline">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Studio tools</span><h2>Bring characters to life with Lipline.</h2><p>Two browser tools that turn your voice into talking cartoon characters. Learn them with us, then use them for skits, explainers, voiceover characters, and series content.</p></div>
+    <div class="grid cols-2">
+      <article class="card reveal" id="lipline-animator">
+        <div class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></div>
+        <h3>Lipline</h3>
+        <div class="tags" style="margin-bottom:14px"><span class="tag tag--cyan">Animator</span><span class="tag">Runs in your browser</span></div>
+        <p>A dialogue-driven 2D cartoon animator. Record or upload your lines, pick a character, and Lipline animates it lip-synced to the audio, then exports a video. No manual keyframing.</p>
+        <ul class="ticks" style="margin-top:18px"><li>A green-screen background, so scenes can be composited anywhere</li><li>Saved, reusable characters for series consistency</li><li>Video export with synced audio</li></ul>
+        <div class="btn-row" style="margin-top:22px"><a class="btn btn--primary btn--sm" href="#interest">Learn Lipline <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      </article>
+      <article class="card reveal d1 card--accent-m" id="lipline-live">
+        <div class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-live"/></svg></div>
+        <h3>Lipline Live</h3>
+        <div class="tags" style="margin-bottom:14px"><span class="tag tag--cyan">Live avatar</span><span class="tag">Desktop Microsoft Edge</span></div>
+        <p>A talking 2D cartoon avatar that lip-syncs in real time to Claude's voice-mode replies. Build a character, link a voice conversation, and watch the face react as it talks.</p>
+        <ul class="ticks" style="margin-top:18px"><li>Build and save characters: skin tone, hair, outfit, and accessories</li><li>Expressions, gestures, and idle life that follow the voice</li><li>Green screen and clip recording</li><li>No API keys needed</li></ul>
+        <p class="fine" style="margin-top:18px">Built to support you, not hook you.</p>
+        <div class="btn-row" style="margin-top:14px"><a class="btn btn--primary btn--sm" href="#interest">Learn Lipline Live <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="section section--alt">
   <div class="wrap">
     <div class="section-head reveal"><span class="eyebrow">Formats</span><h2>Learn the way that fits.</h2></div>
@@ -128,7 +154,7 @@
     <div class="section-head reveal"><span class="eyebrow">Get involved</span><h2>Join the training interest list.</h2><p>Tell us what you want to learn. We will write back with what is available and what is coming.</p></div>
     <form class="form-card" data-form="training" data-subject="Training interest" method="post" action="mailto:hello@aissko.com" enctype="text/plain">
   <div class="form-grid">
-    <div class="field"><label for="training-name">Your name <span class="req" aria-hidden="true">*</span></label><input type="text" id="training-name" name="name" required autocomplete="name"></div><div class="field"><label for="training-email">Email <span class="req" aria-hidden="true">*</span></label><input type="email" id="training-email" name="email" required autocomplete="email"></div><div class="field"><label for="training-organization">Organization</label><input type="text" id="training-organization" name="organization" autocomplete="organization"></div><div class="field"><label for="training-format">Preferred format</label><select id="training-format" name="format"><option value="">Select</option><option value="Live session">Live session</option><option value="Guided walkthrough">Guided walkthrough</option><option value="One-on-one coaching">One-on-one coaching</option><option value="Team onboarding">Team onboarding</option><option value="Not sure yet">Not sure yet</option></select></div><fieldset class="field full"><legend>What do you want to learn?</legend><div class="options"><label class="opt"><input type="checkbox" name="tracks" value="AISSKO apps"><span>AISSKO apps</span></label><label class="opt"><input type="checkbox" name="tracks" value="Field and data-center work"><span>Field and data-center work</span></label><label class="opt"><input type="checkbox" name="tracks" value="Building an ops practice"><span>Building an ops practice</span></label></div></fieldset><div class="field full"><label for="training-message">Tell us about your goals</label><textarea id="training-message" name="message" rows="5" placeholder="Who is the training for, and what should they be able to do afterward?"></textarea></div><div class="full"><label class="consent"><input type="checkbox" name="consent" value="yes" required><span>I agree that AISSKO may contact me about training. See our <a href="privacy.html">Privacy Policy</a>.</span></label></div>
+    <div class="field"><label for="training-name">Your name <span class="req" aria-hidden="true">*</span></label><input type="text" id="training-name" name="name" required autocomplete="name"></div><div class="field"><label for="training-email">Email <span class="req" aria-hidden="true">*</span></label><input type="email" id="training-email" name="email" required autocomplete="email"></div><div class="field"><label for="training-organization">Organization</label><input type="text" id="training-organization" name="organization" autocomplete="organization"></div><div class="field"><label for="training-format">Preferred format</label><select id="training-format" name="format"><option value="">Select</option><option value="Live session">Live session</option><option value="Guided walkthrough">Guided walkthrough</option><option value="One-on-one coaching">One-on-one coaching</option><option value="Team onboarding">Team onboarding</option><option value="Not sure yet">Not sure yet</option></select></div><fieldset class="field full"><legend>What do you want to learn?</legend><div class="options"><label class="opt"><input type="checkbox" name="tracks" value="AISSKO apps"><span>AISSKO apps</span></label><label class="opt"><input type="checkbox" name="tracks" value="Field and data-center work"><span>Field and data-center work</span></label><label class="opt"><input type="checkbox" name="tracks" value="Building an ops practice"><span>Building an ops practice</span></label><label class="opt"><input type="checkbox" name="tracks" value="Lipline"><span>Lipline</span></label><label class="opt"><input type="checkbox" name="tracks" value="Lipline Live"><span>Lipline Live</span></label></div></fieldset><div class="field full"><label for="training-message">Tell us about your goals</label><textarea id="training-message" name="message" rows="5" placeholder="Who is the training for, and what should they be able to do afterward?"></textarea></div><div class="full"><label class="consent"><input type="checkbox" name="consent" value="yes" required><span>I agree that AISSKO may contact me about training. See our <a href="privacy.html">Privacy Policy</a>.</span></label></div>
   </div>
   <div class="hp" aria-hidden="true"><label>Leave this empty<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label></div>
   <div class="form-actions"><button class="btn btn--primary" type="submit">Join the list <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button><span class="fine">We reply to every message.</span></div>
