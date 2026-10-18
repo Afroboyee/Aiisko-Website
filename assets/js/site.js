@@ -224,6 +224,42 @@
     el.textContent = msg;
   }
 
+  /* Turns a People Services form into a row for the crew database (null for other forms). */
+  function dbRow(kind, form, data) {
+    var all = function (n) { return new FormData(form).getAll(n).map(String); };
+    if (kind === "join") {
+      return { table: "applications", row: {
+        full_name: data.name || "", email: data.email || "", phone: data.phone || "", state: data.state || "", city: data.city || "",
+        experience: data.experience || "", services: all("services"), availability: data.availability || "", travel: data.travel || "",
+        credentials: data.credentials || "", link: data.link || "", message: data.message || "", consent: true } };
+    }
+    if (kind === "request") {
+      return { table: "service_requests", row: {
+        company: data.company || "", full_name: data.name || "", email: data.email || "", phone: data.phone || "", services: all("services"),
+        state: data.state || "", site: data.site || "", timeframe: data.timeframe || "", crew_size: data.crew_size || "", message: data.message || "", consent: true } };
+    }
+    return null;
+  }
+  function saveToDatabase(db) {
+    return fetch(cfg.supabaseUrl.replace(/\/+$/, "") + "/rest/v1/" + db.table, {
+      method: "POST",
+      headers: { apikey: cfg.supabaseKey, Authorization: "Bearer " + cfg.supabaseKey, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify(db.row)
+    }).then(function (res) { if (!res.ok) throw new Error("Database said " + res.status); });
+  }
+  function sendToEndpoint(data, subject) {
+    var fd = new FormData();
+    Object.keys(data).forEach(function (k) { fd.append(k, data[k]); });
+    fd.append("subject", subject);
+    fd.append("from_name", "AISSKO website");
+    if (cfg.formAccessKey) fd.append("access_key", cfg.formAccessKey);
+    return fetch(cfg.formEndpoint, { method: "POST", body: fd, headers: { Accept: "application/json" } }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (json) {
+        if (!res.ok || (json && (json.success === false || json.ok === false))) throw new Error((json && json.message) || "Request failed");
+      });
+    });
+  }
+
   function initForms() {
     document.querySelectorAll("form[data-form]").forEach(function (form) {
       var status = form.querySelector(".form-status");
@@ -232,6 +268,12 @@
       if (resetLink) resetLink.addEventListener("click", function (e) {
         e.preventDefault(); form.reset(); form.classList.remove("is-sent"); status.className = "form-status";
       });
+      function markSent() {
+        form.classList.add("is-sent");
+        status.className = "form-status";
+        var done = form.querySelector(".sent-msg");
+        if (done) { done.setAttribute("tabindex", "-1"); done.focus(); }
+      }
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -243,38 +285,30 @@
         var who = data.name || data.company || "";
         var subject = (form.getAttribute("data-subject") || "Website message") + (who ? " — " + who : "");
 
-        if (!cfg.formEndpoint) {
-          // No form service connected yet: open a ready-to-send email instead.
-          var body = Object.keys(data).map(function (k) { return humanize(k) + ": " + data[k]; }).join("\n");
-          window.location.href = "mailto:" + cfg.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-          show(status, "info", "Your email app should open with your message ready to send. If nothing opens, email us at " + cfg.email + ".");
-          return;
+        // Delivery without a database: email through the form service, or open an email draft.
+        function viaEmail() {
+          if (!cfg.formEndpoint) {
+            var body = Object.keys(data).map(function (k) { return humanize(k) + ": " + data[k]; }).join("\n");
+            window.location.href = "mailto:" + cfg.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+            show(status, "info", "Your email app should open with your message ready to send. If nothing opens, email us at " + cfg.email + ".");
+            if (submit) submit.disabled = false;
+            return;
+          }
+          sendToEndpoint(data, subject).then(markSent).catch(function () {
+            show(status, "err", "Sorry, that did not go through. Please try again, or email us at " + cfg.email + ".");
+          }).then(function () { if (submit) submit.disabled = false; });
         }
 
-        var fd = new FormData();
-        Object.keys(data).forEach(function (k) { fd.append(k, data[k]); });
-        fd.append("subject", subject);
-        fd.append("from_name", "AISSKO website");
-        if (cfg.formAccessKey) fd.append("access_key", cfg.formAccessKey);
-
         if (submit) submit.disabled = true;
+        // People Services forms go straight into the crew database when it is connected.
+        var db = cfg.supabaseUrl && cfg.supabaseKey ? dbRow(form.getAttribute("data-form"), form, data) : null;
         show(status, "info", "Sending…");
-        fetch(cfg.formEndpoint, { method: "POST", body: fd, headers: { Accept: "application/json" } })
-          .then(function (res) {
-            return res.json().catch(function () { return null; }).then(function (json) {
-              if (!res.ok || (json && (json.success === false || json.ok === false))) throw new Error((json && json.message) || "Request failed");
-            });
-          })
-          .then(function () {
-            form.classList.add("is-sent");
-            status.className = "form-status";
-            var done = form.querySelector(".sent-msg");
-            if (done) { done.setAttribute("tabindex", "-1"); done.focus(); }
-          })
-          .catch(function () {
-            show(status, "err", "Sorry, that did not go through. Please try again, or email us at " + cfg.email + ".");
-          })
-          .then(function () { if (submit) submit.disabled = false; });
+        if (!db) { viaEmail(); return; }
+        saveToDatabase(db).then(function () {
+          if (cfg.formEndpoint) sendToEndpoint(data, subject).catch(function () {}); // optional email alert
+          markSent();
+          if (submit) submit.disabled = false;
+        }).catch(function () { viaEmail(); });
       });
     });
   }

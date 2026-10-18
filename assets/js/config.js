@@ -13,6 +13,11 @@ window.AISSKO = {
   formEndpoint: "",
   formAccessKey: "",
 
+  // Crew database (Supabase). When both are filled in, the People Services forms save straight into it.
+  // Paste the Project URL and the PUBLIC "anon" key (never the secret key). See crew-backend/README.md.
+  supabaseUrl: "",
+  supabaseKey: "",
+
   // Live links. Fill one in and its button on the site switches from "request" to the real action.
   links: {
     buy: {

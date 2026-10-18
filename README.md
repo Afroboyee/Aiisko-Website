@@ -54,3 +54,11 @@ Add two-letter codes to `activeStates` in `assets/js/config.js`, for example `["
 - **Screenshots** show AISSKO's own apps running with sample or example data only.
 - **Third-party names** (ServiceNow, Microsoft 365, Intune, Steam, etc.) appear only to describe compatibility and are trademarks of their owners.
 - **Fonts** (Figtree, Source Serif 4) are self-hosted under the SIL Open Font License; see `assets/fonts/`.
+
+## AISSKO Crew app (aissko.com/crew)
+
+A phone-friendly app for People Services: crews see where and when to be and check in; managers run jobs, see who is on site, and fix check-ins. It runs in **demo mode** until a database is connected.
+
+- App: `crew/`  ·  Database rules, tests, and setup guide: `crew-backend/` (start with `crew-backend/README.md`)
+- Website sign-up and crew-request forms save into the same database once `supabaseUrl` and `supabaseKey` are set in `assets/js/config.js`.
+
